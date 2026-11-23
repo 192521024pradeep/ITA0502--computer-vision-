@@ -1,0 +1,34 @@
+
+import cv2
+
+# Read input image
+img = cv2.imread("input.jpg")
+
+if img is None:
+    print("Error: Image not found!")
+    exit()
+
+# Get text from user
+text = input("Enter the text: ")
+
+# Add text to image
+cv2.putText(
+    img,
+    text,
+    (50, 100),
+    cv2.FONT_HERSHEY_SIMPLEX,
+    1,
+    (0, 0, 255),
+    2
+)
+
+# Display image
+cv2.imshow("Text on Image", img)
+
+# Save output
+cv2.imwrite("text_image.jpg", img)
+
+print("Text added successfully!")
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

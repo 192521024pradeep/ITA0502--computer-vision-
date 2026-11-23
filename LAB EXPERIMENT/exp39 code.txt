@@ -1,0 +1,57 @@
+
+import cv2
+
+# Open input video
+cap = cv2.VideoCapture("input.mp4")
+
+if not cap.isOpened():
+    print("Error: Video not found!")
+    exit()
+
+# Get video FPS
+fps = cap.get(cv2.CAP_PROP_FPS)
+
+# Store video frames
+frames = []
+
+while True:
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    frames.append(frame)
+
+cap.release()
+
+# Check frames
+if len(frames) == 0:
+    print("No video frames found!")
+    exit()
+
+# Reverse the frames
+frames.reverse()
+
+# Get video size
+height, width = frames[0].shape[:2]
+
+# Create output video
+out = cv2.VideoWriter(
+    "reverse_slow_motion.mp4",
+    cv2.VideoWriter_fourcc(*"mp4v"),
+    max(fps / 2, 1),
+    (width, height)
+)
+
+# Play video in reverse slow motion
+for frame in frames:
+    cv2.imshow("Reverse Slow Motion Video", frame)
+    out.write(frame)
+
+    if cv2.waitKey(max(1, int(500 / max(fps, 1))) ) & 0xFF == ord('q'):
+        break
+
+out.release()
+cv2.destroyAllWindows()
+
+print("Reverse slow motion video created successfully!")

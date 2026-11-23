@@ -1,0 +1,68 @@
+
+import cv2
+import os
+
+folder = r"C:\COMPUTER VISION\exp38"
+
+image_path = os.path.join(folder, "input.jpeg")
+model_path = os.path.join(
+    folder, "face_detection_yunet_2023mar.onnx"
+)
+
+print("Checking files...")
+
+print("Image exists:", os.path.exists(image_path))
+print("Model exists:", os.path.exists(model_path))
+
+if os.path.exists(image_path) and os.path.exists(model_path):
+
+    img = cv2.imread(image_path)
+
+    if img is not None:
+
+        print("Image loaded successfully!")
+
+        h, w = img.shape[:2]
+
+        detector = cv2.FaceDetectorYN.create(
+            model_path,
+            "",
+            (w, h),
+            0.6,
+            0.3,
+            5000
+        )
+
+        _, faces = detector.detect(img)
+
+        count = 0
+
+        if faces is not None:
+
+            for face in faces:
+
+                x, y, fw, fh = face[:4].astype(int)
+
+                cv2.rectangle(
+                    img,
+                    (x, y),
+                    (x + fw, y + fh),
+                    (0, 255, 0),
+                    2
+                )
+
+                count += 1
+
+        print("Number of faces detected:", count)
+
+        cv2.imshow("Experiment 38 - Face Detection", img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    else:
+        print("Image loading failed!")
+
+else:
+    print("Required files are missing!")
+
+input("Press Enter to exit...")

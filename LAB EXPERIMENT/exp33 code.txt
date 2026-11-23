@@ -1,0 +1,31 @@
+
+import cv2
+import numpy as np
+
+# Get image size from user
+height = int(input("Enter image height: "))
+width = int(input("Enter image width: "))
+
+# Create a white image
+img = np.ones((height, width, 3), dtype=np.uint8) * 255
+
+# Draw a rectangle
+start_point = (width // 4, height // 4)
+end_point = (3 * width // 4, 3 * height // 4)
+
+# Rectangle color (Blue)
+color = (255, 0, 0)
+
+# Draw rectangle
+cv2.rectangle(img, start_point, end_point, color, 3)
+
+# Display image
+cv2.imshow("White Image with Rectangle", img)
+
+# Save image
+cv2.imwrite("rectangle_image.jpg", img)
+
+print("Rectangle created successfully!")
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

@@ -1,0 +1,28 @@
+
+import cv2
+import numpy as np
+
+# Get image size from user
+height = int(input("Enter image height: "))
+width = int(input("Enter image width: "))
+
+# Create white image
+img = np.ones((height, width, 3), dtype=np.uint8) * 255
+
+# Calculate circle center and radius
+center = (width // 2, height // 2)
+radius = min(width, height) // 4
+
+# Draw a blue circle
+cv2.circle(img, center, radius, (255, 0, 0), 3)
+
+# Display image
+cv2.imshow("Circle Image", img)
+
+# Save image
+cv2.imwrite("circle_image.jpg", img)
+
+print("Circle created successfully!")
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()

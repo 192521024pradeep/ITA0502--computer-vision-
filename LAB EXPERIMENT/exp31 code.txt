@@ -1,0 +1,58 @@
+
+import cv2
+import os
+
+# Load input image
+image_path = "input.jpg"
+
+img = cv2.imread(image_path)
+
+if img is None:
+    print("Error: Image not found!")
+    print("Place input.jpg in the same folder as this Python file.")
+    exit()
+
+# Convert image to grayscale
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Set threshold values
+lower_threshold = 100
+upper_threshold = 200
+
+# Apply threshold segmentation
+_, segmented = cv2.threshold(
+    gray,
+    lower_threshold,
+    255,
+    cv2.THRESH_BINARY
+)
+
+# Apply range-based segmentation
+range_segmented = cv2.inRange(
+    gray,
+    lower_threshold,
+    upper_threshold
+)
+
+# Display original image
+cv2.imshow("Original Image", img)
+
+# Display grayscale image
+cv2.imshow("Grayscale Image", gray)
+
+# Display threshold segmentation
+cv2.imshow("Threshold Segmentation", segmented)
+
+# Display range-based segmentation
+cv2.imshow("Range Segmentation", range_segmented)
+
+print("Image segmentation completed successfully!")
+print("Lower Threshold:", lower_threshold)
+print("Upper Threshold:", upper_threshold)
+
+# Save output images
+cv2.imwrite("segmented_image.jpg", segmented)
+cv2.imwrite("range_segmented_image.jpg", range_segmented)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
